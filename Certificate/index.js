@@ -1,3 +1,19 @@
+const submitBtn = document.getElementById("submitBtn");
+const inputName = document.querySelector("#name");
+const inputCurso = document.querySelector("#curso");
+
+const capitalize = (str, lower = false) =>
+  (lower ? str.toLowerCase() : str).replace(/(?:^|\s|["'([{])+\S/g, (match) =>
+    match.toUpperCase()
+  );
+
+if(submitBtn){
+    submitBtn.addEventListener("click",()=>{
+        const val = capitalize(inputName.value);
+        generatePDF(val,"Change The World",inputCurso.value);
+    });
+}
+
 const generatePDF = async (name,firma,curso) =>{
     const {PDFDocument, rgb } = PDFLib;
 
@@ -14,7 +30,7 @@ const generatePDF = async (name,firma,curso) =>{
     pdfDoc.registerFontkit(fontkit);
     const myfont = await pdfDoc.embedFont(exFont);
     const pages = pdfDoc.getPages();
-    
+
     const drawName = pages[0];
     drawName.drawText(name,{
         x:30,
@@ -37,7 +53,7 @@ const generatePDF = async (name,firma,curso) =>{
     drawFirma.drawText(firma,{
         x:325,
         y:185,
-        size:25,
+        size:20,
         font:myfont,
         color:rgb(0,0,0),
     });
@@ -46,20 +62,6 @@ const generatePDF = async (name,firma,curso) =>{
     saveAs(uri,"CertificadoNuevo.pdf",{autoBom: true});
     document.querySelector("#mypdf").src = uri;
 };
-const submitBtn = document.getElementById("submitBtn");
-const inputName = document.querySelector("#name");
-const inputCurso = document.querySelector("#curso");
 
-const capitalize = (str, lower = false) =>
-  (lower ? str.toLowerCase() : str).replace(/(?:^|\s|["'([{])+\S/g, (match) =>
-    match.toUpperCase()
-  );
-
-if(submitBtn){
-    submitBtn.addEventListener("click",()=>{
-        const val = capitalize(inputName.value);
-        generatePDF(val,"Change The World",inputCurso.value);
-    });
-}
 
 
